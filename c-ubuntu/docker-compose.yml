@@ -1,0 +1,10 @@
+
+services:
+  dev:
+    container_name: 'project-dev'
+    build:
+      context: .
+      target: dev
+      pull: false
+    volumes:
+      - .:/home/ubuntu
