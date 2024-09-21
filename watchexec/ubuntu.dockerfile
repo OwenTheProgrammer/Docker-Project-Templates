@@ -9,11 +9,9 @@ RUN apt-get update \
 
 FROM scratch AS final    
 # Found file locations through dpkg --contents watchexec.deb
-COPY --from=base \
-    /usr/share/bash-completion/completions/watchexec        \
-    /usr/share/zsh/site-functions/_watchexec                \
-    /usr/share/fish/vendor_completions.d/watchexec.fish     \
-    /usr/share/man/man1/watchexec.1.gz                      \
-    /usr/share/doc/watchexec/watchexec.1.md                 \
-    /usr/bin/watchexec                                      \
-    ./
+COPY --from=base /usr/share/bash-completion/completions/watchexec /usr/share/bash-completion/completions/watchexec
+COPY --from=base /usr/share/zsh/site-functions/_watchexec /usr/share/zsh/site-functions/_watchexec
+COPY --from=base /usr/share/fish/vendor_completions.d/watchexec.fish /usr/share/fish/vendor_completions.d/watchexec.fish
+COPY --from=base /usr/share/man/man1/watchexec.1.gz /usr/share/man/man1/watchexec.1.gz
+COPY --from=base /usr/share/doc/watchexec/watchexec.1.md /usr/share/doc/watchexec/watchexec.1.md
+COPY --from=base /usr/bin/watchexec /usr/bin/watchexec

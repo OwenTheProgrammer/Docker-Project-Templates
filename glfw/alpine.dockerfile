@@ -12,7 +12,9 @@ RUN apk add --no-cache \
     && cmake -P build/cmake_install.cmake
 
 FROM scratch AS final
-COPY --from=base                \
-    /usr/local/lib/libglfw3.a   \
-    /usr/local/include/GLFW     \
-    ./
+COPY --from=base /usr/local/include/ /usr/local/include/
+COPY --from=base /usr/local/lib/libglfw3.a /usr/local/lib/libglfw3.a 
+
+FROM scratch AS export
+COPY --from=base /usr/local/include/ /include/
+COPY --from=base /usr/local/lib/libglfw3.a /lib/libglfw3.a

@@ -10,9 +10,9 @@ RUN apt update \
     && cmake -P build/cmake_install.cmake
 
 FROM scratch AS final
-#COPY --from=build /usr/local/lib/libglfw3.a /glfw/lib
-#COPY --from=build /usr/local/include /glfw/include
-COPY --from=base \
-    /usr/local/include \
-    /usr/local/lib/libglfw3.a \
-    ./
+COPY --from=base /usr/local/include/ /usr/local/include/
+COPY --from=base /usr/local/lib/libglfw3.a /usr/local/lib/libglfw3.a 
+
+FROM scratch AS export
+COPY --from=base /usr/local/include/ /include/
+COPY --from=base /usr/local/lib/libglfw3.a /lib/libglfw3.a
