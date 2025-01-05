@@ -1,0 +1,9 @@
+
+# Ignore all
+/*
+
+# Except the build files
+
+!/Makefile
+!/src/
+!/include/

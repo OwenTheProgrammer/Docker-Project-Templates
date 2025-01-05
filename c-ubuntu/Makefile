@@ -20,10 +20,6 @@ INC_FILES = $(wildcard $(INC_DIR)/*.h)
 # Map all src/*.c to obj/*.o
 OBJ_FILES = $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-# Remove main from source list to compile last
-MAIN_OBJ = $(OBJ_DIR)/main.o
-OBJ_FILES := $(filter-out $(MAIN_OBJ), $(OBJ_FILES))
-
 # Define debug/release specific build arguments
 debug: CFLAGS += -O0 -ggdb -D DEBUG -Wno-unused-variable -Wno-unused-parameter -Wno-unused-function
 debug: all
@@ -34,16 +30,14 @@ release: all
 # Do buildfs first, then do binary
 all: buildfs | $(BINARY)
 
-# Binary depends on all object files and main object
+# Binary depends on all object files
 # https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html#Automatic-Variables
-$(BINARY): $(OBJ_FILES) $(MAIN_OBJ)
+$(BINARY): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $^ -o $@
 
+# All object files depend on their sources
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
-
-# Sets a rule for all object files and include files to be up to date for main to compile
-$(MAIN_OBJ): $(OBJ_FILES) $(INC_FILES)
 
 buildfs:
 	mkdir -p $(OBJ_DIR) $(BIN_DIR)
